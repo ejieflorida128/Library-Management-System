@@ -7,9 +7,8 @@
     <meta name="keywords" content="Bootstrap, Landing page, Template, Business, Service">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta name="author" content="Grayrids">
-    <title>Slick - Bootstrap 4 Template</title>
+    <title>Library Management System</title>
    
-    <link rel="shortcut icon" href="template/img/2.png" type="image/png">
    
     <link rel="stylesheet" href="template/css/bootstrap.min.css">
     <link rel="stylesheet" href="template/css/animate.css">
@@ -55,7 +54,7 @@
               </li>    
               
               <li class="nav-item">
-                <a class="btn btn-singin" href="#">Admin Login</a>
+                <a class="btn btn-singin" href="login.php">Admin Login</a>
               </li>
             
             </ul>
