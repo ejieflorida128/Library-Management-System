@@ -1,4 +1,6 @@
-<?php 
+
+<?php
+session_start(); 
         include("conn.php");
 
         if($_SERVER['REQUEST_METHOD'] == "POST"){
@@ -32,6 +34,12 @@
                         while($getData = mysqli_fetch_assoc($queryIfExist)){
                                 if($gmail == $getData['gmail']){
                                         if($password == $getData['password']){
+                                                $_SESSION['id'] = $getData['id'];
+                                                $_SESSION['fullname'] = $getData['fullname'];
+                                                $_SESSION['gmail'] = $getData['gmail'];
+                                                $_SESSION['type'] = $getData['type'];
+                                                $_SESSION['password'] = $getData['password'];
+                                                $_SESSION['profile_pictures'] = $getData['profile_pictures'];
                                                 header("Location: User/dashboard.php");
                                         }else{  
                                               // modal for incorrect password
@@ -73,7 +81,7 @@
                             
                           }else{
                             
-                              $insertQuery = "INSERT INTO accounts (fullname,gmail,password,status,type) VALUES ('$fullname','$gmail','$password','Pending','User')";
+                              $insertQuery = "INSERT INTO accounts (fullname,gmail,password,status,type,profile_pictures) VALUES ('$fullname','$gmail','$password','Pending','User','../profile_pictures/default.avif')";
                               mysqli_query($conn,$insertQuery);
 
                               // modal for successful register
@@ -106,6 +114,12 @@
                           while($getData = mysqli_fetch_assoc($queryIfExist)){
                                   if($gmail == $getData['gmail']){
                                           if($password == $getData['password']){
+                                                  $_SESSION['id'] = $getData['id'];
+                                                  $_SESSION['fullname'] = $getData['fullname'];
+                                                  $_SESSION['gmail'] = $getData['gmail'];
+                                                  $_SESSION['type'] = $getData['type'];
+                                                  $_SESSION['password'] = $getData['password'];
+                                                  $_SESSION['profile_picture'] = $getData['profile_picture'];
                                                   header("Location: Admin/dashboard.php");
                                           }else{  
                                                 // modal for incorrect password
@@ -142,15 +156,15 @@
                             }
 
                             if($ifExist > 0){
-                              // modal for Unsuccessfull register
+                            
                               $unsuccessfulRegister = true;
                               
                             }else{
                               
-                                $insertQuery = "INSERT INTO accounts (fullname,gmail,password,status,type) VALUES ('$fullname','$gmail','$password','Pending','Admin')";
+                                $insertQuery = "INSERT INTO accounts (fullname,gmail,password,status,type,profile_picture) VALUES ('$fullname','$gmail','$password','Pending','Admin','../profile_pictures/default.avif')";
                                 mysqli_query($conn,$insertQuery);
 
-                                // modal for successful register
+                             
                                 $successfulRegister = true;
 
                               
