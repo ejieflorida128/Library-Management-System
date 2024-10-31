@@ -3,7 +3,7 @@
 
     $id = $_GET['id'];
 
-    $sql = "DELETE FROM admin_account WHERE id = $id";
+    $sql = "DELETE FROM accounts WHERE id = $id";
     mysqli_query($conn,$sql);
 
 

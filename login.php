@@ -8,74 +8,162 @@
           $unsuccessfulRegister = false;
           $successfulRegister = false;
 
+          $type = $_POST['type'];
 
-          if (isset($_POST['action']) && $_POST['action'] === 'login') {
+          
 
-                $gmail = $_POST['gmail'];
-                $password = $_POST['password'];
+          if($type == "User"){
 
-                if($gmail == "SuperAdmin" && $password == "SuperAdmin"){
-                    header("Location: SuperAdmin/superAdmin.php");
-                }else{
-                    $checkIfExist = "SELECT * FROM admin_account WHERE status = 'Confirmed'";
-                    $queryIfExist = mysqli_query($conn,$checkIfExist);
+            // start sa User
 
-                    $accoutCheck = 0;
-            
-                    while($getData = mysqli_fetch_assoc($queryIfExist)){
-                            if($gmail == $getData['gmail']){
-                                    if($password == $getData['password']){
-                                            header("Location: Admin/dashboard.php");
-                                    }else{  
-                                          // modal for incorrect password
-                                          $incorrectPassword = true;
-                                         
-                                    }
-                            }else{
-                              $accoutCheck++;
+                  if (isset($_POST['action']) && $_POST['action'] === 'login') {
+
+                    $gmail = $_POST['gmail'];
+                    $password = $_POST['password'];
+
+                    if($gmail == "SuperAdmin" && $password == "SuperAdmin"){
+                        header("Location: SuperAdmin/superAdmin.php");
+                    }else{
+                        $checkIfExist = "SELECT * FROM accounts WHERE status = 'Confirmed' AND type = 'User'";
+                        $queryIfExist = mysqli_query($conn,$checkIfExist);
+
+                        $accoutCheck = 0;
+                
+                        while($getData = mysqli_fetch_assoc($queryIfExist)){
+                                if($gmail == $getData['gmail']){
+                                        if($password == $getData['password']){
+                                                header("Location: User/dashboard.php");
+                                        }else{  
+                                              // modal for incorrect password
+                                              $incorrectPassword = true;
+                                            
+                                        }
+                                }else{
+                                  $accoutCheck++;
+                                }
+                        }
+
+                        if($accoutCheck > 0){
+                            $accountNotFound = true;
+                        
+                        }
+                    }
+
+
+              }else if (isset($_POST['action']) && $_POST['action'] === 'register') {
+
+                      $fullname = $_POST['fullname'];
+                      $gmail = $_POST['gmail'];
+                      $password = $_POST['password'];
+
+                          $checkIfExist = "SELECT * FROM accounts WHERE type = 'User'";
+                          $queryIfExist = mysqli_query($conn,$checkIfExist);
+
+                          $ifExist = 0;
+
+                          while($checkNow = mysqli_fetch_assoc($queryIfExist)){
+                                  if($gmail == $checkNow['gmail']){
+                                      $ifExist++;
+                                  }   
+                          }
+
+                          if($ifExist > 0){
+                            // modal for Unsuccessfull register
+                            $unsuccessfulRegister = true;
+                            
+                          }else{
+                            
+                              $insertQuery = "INSERT INTO accounts (fullname,gmail,password,status,type) VALUES ('$fullname','$gmail','$password','Pending','User')";
+                              mysqli_query($conn,$insertQuery);
+
+                              // modal for successful register
+                              $successfulRegister = true;
+
+                            
+                          }
+
+              }
+
+            // end sa User
+
+          }else if($type == "Admin"){
+
+            // start sa admin
+
+                    if (isset($_POST['action']) && $_POST['action'] === 'login') {
+
+                      $gmail = $_POST['gmail'];
+                      $password = $_POST['password'];
+
+                      if($gmail == "SuperAdmin" && $password == "SuperAdmin"){
+                          header("Location: SuperAdmin/superAdmin.php");
+                      }else{
+                          $checkIfExist = "SELECT * FROM accounts WHERE status = 'Confirmed' AND type = 'Admin'";
+                          $queryIfExist = mysqli_query($conn,$checkIfExist);
+
+                          $accoutCheck = 0;
+                  
+                          while($getData = mysqli_fetch_assoc($queryIfExist)){
+                                  if($gmail == $getData['gmail']){
+                                          if($password == $getData['password']){
+                                                  header("Location: Admin/dashboard.php");
+                                          }else{  
+                                                // modal for incorrect password
+                                                $incorrectPassword = true;
+                                              
+                                          }
+                                  }else{
+                                    $accoutCheck++;
+                                  }
+                          }
+
+                          if($accoutCheck > 0){
+                              $accountNotFound = true;
+                          
+                          }
+                      }
+
+
+                }else if (isset($_POST['action']) && $_POST['action'] === 'register') {
+
+                        $fullname = $_POST['fullname'];
+                        $gmail = $_POST['gmail'];
+                        $password = $_POST['password'];
+
+                            $checkIfExist = "SELECT * FROM accounts WHERE type = 'Admin'";
+                            $queryIfExist = mysqli_query($conn,$checkIfExist);
+
+                            $ifExist = 0;
+
+                            while($checkNow = mysqli_fetch_assoc($queryIfExist)){
+                                    if($gmail == $checkNow['gmail']){
+                                        $ifExist++;
+                                    }   
                             }
-                    }
 
-                    if($accoutCheck > 0){
-                        $accountNotFound = true;
-                    
-                    }
+                            if($ifExist > 0){
+                              // modal for Unsuccessfull register
+                              $unsuccessfulRegister = true;
+                              
+                            }else{
+                              
+                                $insertQuery = "INSERT INTO accounts (fullname,gmail,password,status,type) VALUES ('$fullname','$gmail','$password','Pending','Admin')";
+                                mysqli_query($conn,$insertQuery);
+
+                                // modal for successful register
+                                $successfulRegister = true;
+
+                              
+                            }
+
                 }
 
-
-          }else if (isset($_POST['action']) && $_POST['action'] === 'register') {
-
-                  $fullname = $_POST['fullname'];
-                  $gmail = $_POST['gmail'];
-                  $password = $_POST['password'];
-
-                      $checkIfExist = "SELECT * FROM admin_account";
-                      $queryIfExist = mysqli_query($conn,$checkIfExist);
-
-                      $ifExist = 0;
-
-                      while($checkNow = mysqli_fetch_assoc($queryIfExist)){
-                              if($gmail == $checkNow['gmail']){
-                                  $ifExist++;
-                              }   
-                      }
-
-                      if($ifExist > 0){
-                        // modal for Unsuccessfull register
-                        $unsuccessfulRegister = true;
-                         
-                      }else{
-                        
-                          $insertQuery = "INSERT INTO admin_account (fullname,gmail,password,status) VALUES ('$fullname','$gmail','$password','Pending')";
-                          mysqli_query($conn,$insertQuery);
-
-                          // modal for successful register
-                          $successfulRegister = true;
-
-                         
-                      }
+            // end sa admin
 
           }
+
+
+         
 
 
         }
@@ -477,7 +565,19 @@ body {
                 <i class="fas fa-lock"></i>
                 <input type="password" placeholder="Enter your password" name = "password" required>
               </div>
-              <!-- <div class="text"><a href="#" style = "color: #2cbaf2;">Forgot password?</a></div> -->
+              <div class="input-box">
+                  <label style="display: flex;">
+                    <input type="radio" name="type" value="User" required> 
+                    <span style="margin-top: -5px; margin-left: 10px; text-decoration: none; color: grey; font-weight: bolder;">User</span>
+                  </label>
+                  <label style="display: flex; margin-left: 20px;">
+                    <input type="radio" name="type" value="Admin"> 
+                    <span style="margin-top: -5px; margin-left: 10px; text-decoration: none; color: grey; font-weight: bolder;">Admin</span>
+                  </label>
+                </div>
+
+           
+              <div class="text"><a href="#" style = "color: #2cbaf2;">Forgot password?</a></div>
               <div class="button input-box">
                 <input type="submit" value="login" name = "action">
               </div>
@@ -501,6 +601,19 @@ body {
                 <i class="fas fa-lock"></i>
                 <input type="password" placeholder="Enter your password" name = "password" required>
               </div>
+
+              <div class="input-box">
+                  <label style="display: flex;">
+                    <input type="radio" name="type" value="User" required> 
+                    <span style="margin-top: -5px; margin-left: 10px; text-decoration: none; color: grey; font-weight: bolder;">User</span>
+                  </label>
+                  <label style="display: flex; margin-left: 20px;">
+                    <input type="radio" name="type" value="Admin"> 
+                    <span style="margin-top: -5px; margin-left: 10px; text-decoration: none; color: grey; font-weight: bolder;">Admin</span>
+                  </label>
+                </div>
+
+          
               <div class="button input-box">
                 <input type="submit" value="register" name = "action">
                 

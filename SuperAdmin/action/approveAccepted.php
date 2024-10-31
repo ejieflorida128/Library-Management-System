@@ -3,7 +3,7 @@
 
     $id = $_GET['id'];
 
-    $sql = "UPDATE admin_account SET status = 'Confirmed' WHERE id = $id";
+    $sql = "UPDATE accounts SET status = 'Confirmed' WHERE id = $id";
     mysqli_query($conn,$sql);
 
 

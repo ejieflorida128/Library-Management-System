@@ -54,7 +54,7 @@
               </li>    
               
               <li class="nav-item">
-                <a class="btn btn-singin" href="login.php">Admin Login</a>
+                <a class="btn btn-singin" href="login.php">Login</a>
               </li>
             
             </ul>

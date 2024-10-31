@@ -68,7 +68,7 @@
                 </div>
                 <div class="navbar-nav w-100">
                   
-                    <a href="superAdmin.php" class="nav-item nav-link active"><i class="fa fa-user-shield me-2"></i>Admin Accounts</a>
+                    <a href="superAdmin.php" class="nav-item nav-link active"><i class="fa fa-user-shield me-2"></i>Accounts</a>
                     <a href="pendingAdmin.php" class="nav-item nav-link"><i class="fa fa-hourglass-half me-2"></i>Pending Accounts</a>
                    
                 
@@ -109,6 +109,7 @@
                                     <thead>
                                         <tr>
                                             <th scope="col">No.</th>
+                                            <th scope="col">Type</th>
                                             <th scope="col">Fullname</th>
                                             <th scope="col">Gmail</th>
                                             <th scope="col">Password</th>
@@ -117,7 +118,7 @@
                                     </thead>
                                     <tbody id="schoolTableBody">
                                             <?php
-                                                $sqlGetSchool = "SELECT * FROM admin_account WHERE status = 'Confirmed'";
+                                                $sqlGetSchool = "SELECT * FROM accounts WHERE status = 'Confirmed'";
                                                 $queryGetSchool = mysqli_query($conn, $sqlGetSchool);
 
                                                 $number = 0;
@@ -128,6 +129,7 @@
                                             ?>
                                             <tr class="school-row">
                                                 <th scope="row"><h6 style="color: grey; margin-top: 7px;"><?php echo $number; ?></h6></th>
+                                                <td class="school-name"><h6 style="color: grey; margin-top: 7px;"><?php echo $getData['type']; ?></h6></td>
                                                 <td class="school-name"><h6 style="color: grey; margin-top: 7px;"><?php echo $getData['fullname']; ?></h6></td>
                                                 <td class="school-name"><h6 style="color: grey; margin-top: 7px;"><?php echo $getData['gmail']; ?></h6></td>
                                                 <td class="school-name"><h6 style="color: grey; margin-top: 7px;"><?php echo $getData['password']; ?></h6></td>
