@@ -1,12 +1,95 @@
+<?php 
+        include("conn.php");
+
+        if($_SERVER['REQUEST_METHOD'] == "POST"){
+
+          $incorrectPassword = false;
+          $accountNotFound = false;
+          $unsuccessfulRegister = false;
+          $successfulRegister = false;
+
+
+          if (isset($_POST['action']) && $_POST['action'] === 'login') {
+
+                $gmail = $_POST['gmail'];
+                $password = $_POST['password'];
+
+                if($gmail == "SuperAdmin" && $password == "SuperAdmin"){
+                    header("Location: SuperAdmin/superAdmin.php");
+                }else{
+                    $checkIfExist = "SELECT * FROM admin_account WHERE status = 'Confirmed'";
+                    $queryIfExist = mysqli_query($conn,$checkIfExist);
+
+                    $accoutCheck = 0;
+            
+                    while($getData = mysqli_fetch_assoc($queryIfExist)){
+                            if($gmail == $getData['gmail']){
+                                    if($password == $getData['password']){
+                                            header("Location: Admin/dashboard.php");
+                                    }else{  
+                                          // modal for incorrect password
+                                          $incorrectPassword = true;
+                                         
+                                    }
+                            }else{
+                              $accoutCheck++;
+                            }
+                    }
+
+                    if($accoutCheck > 0){
+                        $accountNotFound = true;
+                    
+                    }
+                }
+
+
+          }else if (isset($_POST['action']) && $_POST['action'] === 'register') {
+
+                  $fullname = $_POST['fullname'];
+                  $gmail = $_POST['gmail'];
+                  $password = $_POST['password'];
+
+                      $checkIfExist = "SELECT * FROM admin_account";
+                      $queryIfExist = mysqli_query($conn,$checkIfExist);
+
+                      $ifExist = 0;
+
+                      while($checkNow = mysqli_fetch_assoc($queryIfExist)){
+                              if($gmail == $checkNow['gmail']){
+                                  $ifExist++;
+                              }   
+                      }
+
+                      if($ifExist > 0){
+                        // modal for Unsuccessfull register
+                        $unsuccessfulRegister = true;
+                         
+                      }else{
+                        
+                          $insertQuery = "INSERT INTO admin_account (fullname,gmail,password,status) VALUES ('$fullname','$gmail','$password','Pending')";
+                          mysqli_query($conn,$insertQuery);
+
+                          // modal for successful register
+                          $successfulRegister = true;
+
+                         
+                      }
+
+          }
+
+
+        }
+
+?>
 <!DOCTYPE html>
-<!-- Coding by CodingNepal | www.codingnepalweb.com-->
 <html lang="en" dir="ltr">
   <head>
     <meta charset="UTF-8">
-    <title> Login and Registration Form in HTML & CSS | CodingLab </title>
+    <title>Library Management System</title>
     <link rel="stylesheet" href="style.css">
     <!-- Fontawesome CDN Link -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         /* Google Font Link */
@@ -384,7 +467,7 @@ body {
         <div class="form-content">
           <div class="login-form">
             <div class="title">Staff Login</div>
-          <form action="loginAction.php" method = "post">
+          <form action="login.php" method = "post">
             <div class="input-boxes">
               <div class="input-box">
                 <i class="fas fa-envelope"></i>
@@ -396,7 +479,7 @@ body {
               </div>
               <!-- <div class="text"><a href="#" style = "color: #2cbaf2;">Forgot password?</a></div> -->
               <div class="button input-box">
-                <input type="submit" value="Login">
+                <input type="submit" value="login" name = "action">
               </div>
               <div class="text sign-up-text" >Don't have an account? <label for="flip" style = "color: #2cbaf2">Sigup now</label></div>
             </div>
@@ -404,7 +487,7 @@ body {
       </div>
         <div class="signup-form">
           <div class="title">Staff Signup</div>
-        <form action="registerAction.php" method = "post">
+        <form action="login.php" method = "post">
             <div class="input-boxes">
               <div class="input-box">
                 <i class="fas fa-user"></i>
@@ -419,7 +502,7 @@ body {
                 <input type="password" placeholder="Enter your password" name = "password" required>
               </div>
               <div class="button input-box">
-                <input type="submit" value="Register">
+                <input type="submit" value="register" name = "action">
                 
               </div>
               <div class="text sign-up-text">Already have an account? <label for="flip" style = "color: #2cbaf2">Login now</label></div>
@@ -429,6 +512,55 @@ body {
     </div>
     </div>
   </div>
+
+
+
+  <div class="modal" tabindex="-1" id="exampleModal" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style = "margin-top: 10%;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Notification</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <?php 
+                    if ($incorrectPassword) {
+                        echo '<p>Incorrect password. Please try again.</p>';
+                    } else if ($accountNotFound) {
+                        echo '<p>No account found with that email. Please check and try again.</p>';
+                    }elseif ($unsuccessfulRegister) {
+                      echo '<p>Registration unsuccessful. This email is already registered. Please try a different one.</p>';
+                    } elseif ($successfulRegister) {
+                        echo '<p>Registration successful! Please wait for account approval.</p>';
+                    }
+                ?>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Check if there is any message to display in the modal
+    <?php if ($incorrectPassword || $accountNotFound || $unsuccessfulRegister || $successfulRegister): ?>
+        document.addEventListener("DOMContentLoaded", function() {
+            var myModal = new bootstrap.Modal(document.getElementById('exampleModal'), {
+                keyboard: false
+            });
+            myModal.show();
+        });
+    <?php endif; ?>
+</script>
+
+
+
+
+  
+
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
 
   
 </body>
