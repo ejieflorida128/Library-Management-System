@@ -225,11 +225,14 @@
                
               </div>
              <div>
-               <p>By: T-Albert</p>
-               <p>Illustrated by: maaillustrations.com</p>
+             <div class="info" style = "text-align: left;">
+                <p>Uploaded By: T-Albert</p>
+                <p>Illustrated by: maaillustrations.com</p>
+                <p>Downloads: <strong>150</strong></p>
+              </div>
              </div>
-              <div class="plan-button">
-                <a href="storage/GINGER-THE-GIRAFFE.pdf" download class="btn btn-success">Download</a>
+              <div class="plan-button" style = "margin-top: 10px;">
+                <a href="download.php" class="btn btn-success">Download</a>
               </div>
             </div>
           </div>
@@ -242,11 +245,14 @@
                
               </div>
              <div>
-               <p>By: T-Albert</p>
-               <p>Illustrated by: maaillustrations.com</p>
+             <div class="info" style = "text-align: left;">
+                <p>Uploaded By: T-Albert</p>
+                <p>Illustrated by: maaillustrations.com</p>
+                <p>Downloads: <strong>151</strong></p>
+              </div>
              </div>
-              <div class="plan-button">
-                <a href="storage/HIDE-AND-SEEK.pdf" download class="btn btn-success">Download</a>
+              <div class="plan-button" style = "margin-top: 10px;">
+                <a href="download.php" class="btn btn-success">Download</a>
               </div>
             </div>
           </div>
@@ -259,11 +265,14 @@
                
               </div>
              <div>
-               <p>By: T-Albert</p>
-               <p>Illustrated by: maaillustrations.com</p>
+              <div class="info" style = "text-align: left;">
+                <p>Uploaded By: T-Albert</p>
+                <p>Illustrated by: maaillustrations.com</p>
+                <p>Downloads: <strong>150</strong></p>
+              </div>
              </div>
-              <div class="plan-button">
-                <a href="storage/ABE-THE-SERVICE-DOG.pdf" download class="btn btn-success">Download</a>
+              <div class="plan-button" style = "margin-top: 10px;">
+                <a href="download.php" class="btn btn-success">Download</a>
               </div>
             </div>
           </div>
