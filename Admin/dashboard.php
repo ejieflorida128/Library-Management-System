@@ -73,7 +73,7 @@
                 <div class="navbar-nav w-100">
                 <a href="dashboard.php" class="nav-item nav-link active"><i class="fa fa-home me-2"></i>Dashboard</a>
                 <a href="profile.php" class="nav-item nav-link"><i class="fa fa-user me-2"></i>Profile</a>
-                <a href="books.php" class="nav-item nav-link"><i class="fa fa-book me-2"></i>Available Books</a>
+                <a href="books.php" class="nav-item nav-link"><i class="fa fa-book me-2"></i>My Books</a>
                 <a href="logs.php" class="nav-item nav-link"><i class="fa fa-download me-2"></i>Out for Lending</a>
                 
                    

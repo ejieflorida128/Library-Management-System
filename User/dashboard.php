@@ -113,7 +113,7 @@
             </nav>
           
             <div class="container-fluid pt-4 px-4">
-                        <!-- start sa mga boxes -->
+                  
                         <div class="container-fluid pt-4 px-4">
                             <div class="row g-4" style = "display: flex; justify-content: space-around;">
                                 <div class="col-sm-6 col-xl-3" style = " box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);">
@@ -177,7 +177,7 @@
                         </div>
 
 
-                    <!-- end sa mga boxes -->
+         
 
                     <div class="col-12" style = "margin-top: 30px;">
                         <div class="bg-light rounded h-100 p-4">

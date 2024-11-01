@@ -148,8 +148,7 @@
 
        
             <div class="container-fluid pt-4 px-4">
-                        <!-- start sa boooks -->
-
+                      
 
                         <section id="pricing" class="section">
       <div class="container">
@@ -159,25 +158,24 @@
 
         <div class="row pricing-tables" style = "margin-top: 20px; ">
           
-         <!--  Start Col -->
+    
          <?php
 $id = $_SESSION['id'];
 
-// Get the search term from the input
+
 $search = isset($_GET['search']) ? mysqli_real_escape_string($conn, $_GET['search']) : '';
 
-// Modify the SQL query to include a WHERE clause for the search term and user_id
+
 $sqlGetStory = "
     SELECT lend_books.*, accounts.fullname 
     FROM lend_books 
     JOIN accounts ON lend_books.uploaded_by = accounts.id 
     WHERE (LOWER(lend_books.book_title) LIKE LOWER('%$search%') 
     OR LOWER(accounts.fullname) LIKE LOWER('%$search%'))
-    AND lend_books.user_id = '$id'";  // Ensure that the user_id matches the session id
+    AND lend_books.user_id = '$id'"; 
 
 $queryGetStory = mysqli_query($conn, $sqlGetStory);
 
-// Loop through lend_books and display details
 while ($Story = mysqli_fetch_assoc($queryGetStory)) {
 ?>
     <div class="col-lg-4 col-md-4 col-xs-12" 
@@ -226,7 +224,6 @@ while ($Story = mysqli_fetch_assoc($queryGetStory)) {
       </div>
     </section>
 
-                        <!-- end sa books -->
             </div>
         
 

@@ -214,13 +214,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <div class="card">
                                     <div class="card-body">
                                         <div class="d-flex flex-column align-items-center text-center">
-                                        <!-- Profile Picture Preview -->
+                                     
                                         <img id="profileImagePreview" src="<?php echo $_SESSION['profile_picture']; ?>" alt="Admin"  style = "height: 150px; width: 150px; border-radius: 50%;">
                                         <div class="mt-3">
                                             <h4><?php echo $_SESSION['fullname']; ?></h4>
                                             <p class="text-secondary mb-1"><?php echo $_SESSION['gmail']; ?></p>
                                             
-                                            <!-- File Input and Submit Button -->
+                                           
                                             <div style="margin-top: 20px;">
                                             <label class="btn btn-primary" for="profile_picture">
                                                 <i class="fa fa-pencil-alt"></i>

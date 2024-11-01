@@ -148,7 +148,7 @@
 
        
             <div class="container-fluid pt-4 px-4">
-                        <!-- start sa boooks -->
+                 
 
 
                         <section id="pricing" class="section">
@@ -159,14 +159,13 @@
 
         <div class="row pricing-tables" style = "margin-top: 20px; ">
           
-         <!--  Start Col -->
+       
          <?php
 $id = $_SESSION['id'];
 
-// Get the search term from the input
 $search = isset($_GET['search']) ? mysqli_real_escape_string($conn, $_GET['search']) : '';
 
-// Modify the SQL query to include a WHERE clause for the search term
+
 $sqlGetStory = "
     SELECT books.*, accounts.fullname 
     FROM books 
@@ -175,7 +174,7 @@ $sqlGetStory = "
 $queryGetStory = mysqli_query($conn, $sqlGetStory);
 
 
-// Loop through books and display details
+
 while ($Story = mysqli_fetch_assoc($queryGetStory)) {
     $isOutOfStock = $Story['remain'] <= 0;
 ?>
@@ -250,7 +249,7 @@ while ($Story = mysqli_fetch_assoc($queryGetStory)) {
       </div>
     </section>
 
-                        <!-- end sa books -->
+                 
             </div>
         
 
