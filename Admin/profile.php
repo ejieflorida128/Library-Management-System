@@ -126,7 +126,7 @@
                 <a href="dashboard.php" class="nav-item nav-link"><i class="fa fa-home me-2"></i>Dashboard</a>
                 <a href="profile.php" class="nav-item nav-link active"><i class="fa fa-user me-2"></i>Profile</a>
                 <a href="books.php" class="nav-item nav-link"><i class="fa fa-book me-2"></i>My Books</a>
-                <a href="logs.php" class="nav-item nav-link"><i class="fa fa-download me-2"></i>Download Logs</a>
+                <a href="logs.php" class="nav-item nav-link"><i class="fa fa-download me-2"></i>Pending </a>
 
                 
                    
@@ -160,7 +160,7 @@
                             <span class="d-none d-lg-inline-flex"><?php echo $_SESSION['fullname']; ?></span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
-                          
+                        <a href="profile.php" class="dropdown-item">My Profile</a>
                             <a href="../index.php" class="dropdown-item">Log Out</a>
                         </div>
                     </div>
