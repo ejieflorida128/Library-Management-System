@@ -49,9 +49,7 @@
               </li>  
                                     
                 
-              <li class="nav-item">
-                <a class="nav-link page-scroll" href="#pricing">Books</a>
-              </li>    
+            
               
               <li class="nav-item">
                 <a class="btn btn-singin" href="login.php">Login</a>
