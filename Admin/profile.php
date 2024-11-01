@@ -126,7 +126,7 @@
                 <a href="dashboard.php" class="nav-item nav-link"><i class="fa fa-home me-2"></i>Dashboard</a>
                 <a href="profile.php" class="nav-item nav-link active"><i class="fa fa-user me-2"></i>Profile</a>
                 <a href="books.php" class="nav-item nav-link"><i class="fa fa-book me-2"></i>My Books</a>
-                <a href="logs.php" class="nav-item nav-link"><i class="fa fa-download me-2"></i>Pending </a>
+                <a href="logs.php" class="nav-item nav-link"><i class="fa fa-download me-2"></i>Out for Lending </a>
 
                 
                    
@@ -143,9 +143,7 @@
                 <a href="#" class="sidebar-toggler flex-shrink-0">
                     <i class="fa fa-bars"></i>
                 </a>
-                <form class="d-none d-md-flex ms-4">
-                    <input class="form-control border-0" type="search" placeholder="Search">
-                </form>
+              
                 <div class="navbar-nav align-items-center ms-auto">
                     <div class="nav-item dropdown">
                       

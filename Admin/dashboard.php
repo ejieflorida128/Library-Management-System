@@ -30,6 +30,11 @@
     <link href="template/css/bootstrap.min.css" rel="stylesheet">
 
     <link href="template/css/style.css" rel="stylesheet">
+    <style>
+        body{
+            overflow: hidden;
+        }
+    </style>
 </head>
 
 <body>
@@ -68,8 +73,8 @@
                 <div class="navbar-nav w-100">
                 <a href="dashboard.php" class="nav-item nav-link active"><i class="fa fa-home me-2"></i>Dashboard</a>
                 <a href="profile.php" class="nav-item nav-link"><i class="fa fa-user me-2"></i>Profile</a>
-                <a href="books.php" class="nav-item nav-link"><i class="fa fa-book me-2"></i>My Books</a>
-                <a href="logs.php" class="nav-item nav-link"><i class="fa fa-download me-2"></i>Pending</a>
+                <a href="books.php" class="nav-item nav-link"><i class="fa fa-book me-2"></i>Available Books</a>
+                <a href="logs.php" class="nav-item nav-link"><i class="fa fa-download me-2"></i>Out for Lending</a>
                 
                    
                 </div>
@@ -85,9 +90,7 @@
                 <a href="#" class="sidebar-toggler flex-shrink-0">
                     <i class="fa fa-bars"></i>
                 </a>
-                <form class="d-none d-md-flex ms-4">
-                    <input class="form-control border-0" type="search" placeholder="Search">
-                </form>
+              
                 <div class="navbar-nav align-items-center ms-auto">
                     <div class="nav-item dropdown">
                       
@@ -112,51 +115,124 @@
             <div class="container-fluid pt-4 px-4">
                         <!-- start sa mga boxes -->
                         <div class="container-fluid pt-4 px-4">
-                                <div class="row g-4">
-                                    <div class="col-sm-6 col-xl-3">
-                                        <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
-                                            <i class="fa fa-chart-line fa-3x text-primary"></i>
-                                            <div class="ms-3">
-                                                <p class="mb-2">Today Sale</p>
-                                                <h6 class="mb-0">$1234</h6>
-                                            </div>
+                            <div class="row g-4" style = "display: flex; justify-content: space-around;">
+                                <div class="col-sm-6 col-xl-3" style = " box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);">
+                                    <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
+                                        <i class="fa fa-user fa-3x text-primary"></i>
+                                        <div class="ms-3">
+                                            <p class="mb-2">Admin Accounts</p>
+                                            <h6 class="mb-0">
+
+                                                <?php  
+                                                        $sqlGetData = "SELECT * FROM accounts WHERE type = 'Admin'";
+                                                        $queryGetData = mysqli_query($conn, $sqlGetData);
+                                                        $countUsers = mysqli_num_rows($queryGetData);
+
+                                                        echo $countUsers;
+                                                        
+                                                ?>
+
+                                            </h6> 
                                         </div>
                                     </div>
-                                    <div class="col-sm-6 col-xl-3">
-                                        <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
-                                            <i class="fa fa-chart-bar fa-3x text-primary"></i>
-                                            <div class="ms-3">
-                                                <p class="mb-2">Total Sale</p>
-                                                <h6 class="mb-0">$1234</h6>
-                                            </div>
+                                </div>
+                                <div class="col-sm-6 col-xl-3" style = " box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);">
+                                    <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
+                                        <i class="fa fa-book fa-3x text-primary"></i>
+                                        <div class="ms-3">
+                                            <p class="mb-2">Books</p>
+                                            <h6 class="mb-0">
+                                                <?php  
+                                                            $sqlGetData = "SELECT * FROM books";
+                                                            $queryGetData = mysqli_query($conn, $sqlGetData);
+                                                            $countUsers = mysqli_num_rows($queryGetData);
+
+                                                            echo $countUsers;
+                                                            
+                                                    ?>
+                                            </h6> 
                                         </div>
                                     </div>
-                                    <div class="col-sm-6 col-xl-3">
-                                        <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
-                                            <i class="fa fa-chart-area fa-3x text-primary"></i>
-                                            <div class="ms-3">
-                                                <p class="mb-2">Today Revenue</p>
-                                                <h6 class="mb-0">$1234</h6>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-6 col-xl-3">
-                                        <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
-                                            <i class="fa fa-chart-pie fa-3x text-primary"></i>
-                                            <div class="ms-3">
-                                                <p class="mb-2">Total Revenue</p>
-                                                <h6 class="mb-0">$1234</h6>
-                                            </div>
+                                </div>
+                                <div class="col-sm-6 col-xl-3" style = " box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);">
+                                    <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
+                                        <i class="fa fa-book-reader fa-3x text-primary"></i>
+                                        <div class="ms-3">
+                                            <p class="mb-2">Lend Books</p>
+                                            <h6 class="mb-0">
+                                                    <?php  
+                                                    $id = $_SESSION['id'];
+                                                                    $sqlGetData = "SELECT * FROM lend_books WHERE admin_id = $id";
+                                                                    $queryGetData = mysqli_query($conn, $sqlGetData);
+                                                                    $countUsers = mysqli_num_rows($queryGetData);
+
+                                                                    echo $countUsers;
+                                                                    
+                                                            ?>
+                                            </h6>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                        </div>
 
 
-                        <!-- end sa mga boxes -->
+                    <!-- end sa mga boxes -->
+
+                    <div class="col-12" style = "margin-top: 30px;">
+                        <div class="bg-light rounded h-100 p-4">
+                        <h6 class="mb-4" style="font-weight: bold; color: #333;">Top 3 Latest Release Books</h6>
+
+                            <div class="table-responsive">
+                            <table class="table">
+                                    <thead class = "table-dark">
+                                        <tr>
+                                            <th scope="col" style="text-align: center;">#</th>
+                                            <th scope="col" style="text-align: center;">Book Title</th>
+                                            <th scope="col" style="text-align: center;">Stock</th>
+                                            <th scope="col" style="text-align: center;">Remain</th>
+                                            <th scope="col" style="text-align: center;">Download</th>
+                                            <th scope="col" style="text-align: center;">Uploaded By</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                            $getAllLatestData = "SELECT * FROM books ORDER BY id DESC LIMIT 3";
+                                            $query = mysqli_query($conn, $getAllLatestData);
+                                            $count = 0;
+                                            while ($getData = mysqli_fetch_assoc($query)) {
+                                                $count++;
+                                        ?>
+                                        <tr>
+                                            <th scope="row" style="text-align: center;"><?php echo $count; ?></th>
+                                            <td style="text-align: center;"><?php echo $getData['book_title']; ?></td>
+                                            <td style="text-align: center;"><?php echo $getData['stock']; ?></td>
+                                            <td style="text-align: center;"><?php echo $getData['remain']; ?></td>
+                                            <td style="text-align: center;"><?php echo $getData['download']; ?></td>
+                                            <td style="text-align: center;">
+                                                <?php
+                                                    $id = $getData['admin_id'];
+                                                    $sqlGetAdmin = "SELECT * FROM accounts WHERE id = $id";
+                                                    $queryAdmin = mysqli_query($conn, $sqlGetAdmin);
+                                                    $fetchData = mysqli_fetch_assoc($queryAdmin);
+                                                    echo $fetchData['fullname'];
+                                                ?>
+                                            </td>
+                                        </tr>
+                                        <?php } ?>
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
+                        
+
+
+                      
             </div>
           
-            <div class="container-fluid pt-4 px-4">
+            <div class="container-fluid pt-4 px-4" style = "margin-top: -40px;">
                 <div class="bg-light rounded-top p-4">
                     <div class="row">
                         <div class="col-12 col-sm-6 text-center text-sm-start">

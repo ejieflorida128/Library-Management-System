@@ -160,8 +160,9 @@
                                         <div class="ms-3">
                                             <p class="mb-2">Lend Books</p>
                                             <h6 class="mb-0">
-                                                    <?php  
-                                                                    $sqlGetData = "SELECT * FROM lend_books";
+                                            <?php  
+                                                    $id = $_SESSION['id'];
+                                                                    $sqlGetData = "SELECT * FROM lend_books WHERE user_id = $id";
                                                                     $queryGetData = mysqli_query($conn, $sqlGetData);
                                                                     $countUsers = mysqli_num_rows($queryGetData);
 

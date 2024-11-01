@@ -14,8 +14,6 @@
     <meta content="" name="keywords">
     <meta content="" name="description">
 
-    <!-- Favicon -->
-    <link href="img/favicon.ico" rel="icon">
 
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -78,7 +76,7 @@
                 <a href="dashboard.php" class="nav-item nav-link "><i class="fa fa-home me-2"></i>Dashboard</a>
                 <a href="profile.php" class="nav-item nav-link "><i class="fa fa-user me-2"></i>Profile</a>
                 <a href="books.php" class="nav-item nav-link "><i class="fa fa-book me-2"></i>My Books</a>
-                <a href="logs.php" class="nav-item nav-link active"><i class="fa fa-download me-2"></i>Pending</a>
+                <a href="logs.php" class="nav-item nav-link active"><i class="fa fa-download me-2"></i>Out for Lending</a>
                 
                 
                    
@@ -98,9 +96,11 @@
                 <a href="#" class="sidebar-toggler flex-shrink-0">
                     <i class="fa fa-bars"></i>
                 </a>
-                <form class="d-none d-md-flex ms-4">
-                    <input class="form-control border-0" type="search" placeholder="Search">
+                <form class="d-none d-md-flex ms-4" method="GET" action="">
+                    <input class="form-control border-0" type="search" name="search" placeholder="Search">
+                    
                 </form>
+
                 <div class="navbar-nav align-items-center ms-auto">
                     <div class="nav-item dropdown">
                       
@@ -126,12 +126,52 @@
 
             <!-- Blank Start -->
             <div class="container-fluid pt-4 px-4">
-                <div class="row vh-100 bg-light rounded align-items-center justify-content-center mx-0">
-                    <div class="col-md-6 text-center">
-                        <h3>This is blank page</h3>
-                    </div>
-                </div>
+    <div class="col-12" style="margin-top: 30px;">
+        <div class="bg-light rounded h-100 p-4">
+            <h6 class="mb-4" style="font-weight: bold; color: #333;">Out for Lending</h6>
+
+            <div class="table-responsive">
+                <table class="table">
+                    <thead class="table-dark">
+                        <tr>
+                            <th scope="col" style="text-align: center;">#</th>
+                            <th scope="col" style="text-align: center;">Book Title</th>
+                            <th scope="col" style="text-align: center;">Borrower</th>
+                            <th scope="col" style="text-align: center;">Date Lent</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        // Get the search term from the input
+                        $search = isset($_GET['search']) ? mysqli_real_escape_string($conn, $_GET['search']) : '';
+
+                        // Modify the SQL query to include a WHERE clause for the search term
+                        $getAllLatestData = "
+                            SELECT lend_books.*, accounts.fullname 
+                            FROM lend_books 
+                            JOIN accounts ON lend_books.user_id = accounts.id 
+                            WHERE lend_books.book_title LIKE '%$search%' 
+                            ORDER BY lend_id";
+                        
+                        $query = mysqli_query($conn, $getAllLatestData);
+                        $count = 0;
+                        while ($getData = mysqli_fetch_assoc($query)) {
+                            $count++;
+                        ?>
+                            <tr>
+                                <th scope="row" style="text-align: center;"><?php echo $count; ?></th>
+                                <td style="text-align: center;"><?php echo $getData['book_title']; ?></td>
+                                <td style="text-align: center;"><?php echo $getData['fullname']; ?></td>
+                                <td style="text-align: center;"><?php echo $getData['date']; ?></td>
+                            </tr>
+                        <?php } ?>
+                    </tbody>
+                </table>
             </div>
+        </div>
+    </div>
+</div>
+
             <!-- Blank End -->
 
 
