@@ -39,6 +39,8 @@ session_start();
                                                 $_SESSION['gmail'] = $getData['gmail'];
                                                 $_SESSION['type'] = $getData['type'];
                                                 $_SESSION['password'] = $getData['password'];
+                                                $_SESSION['number'] = $getData['number'];
+                                                $_SESSION['address'] = $getData['address'];
                                                 $_SESSION['profile_pictures'] = $getData['profile_pictures'];
                                                 header("Location: User/dashboard.php");
                                         }else{  
@@ -119,6 +121,8 @@ session_start();
                                                   $_SESSION['gmail'] = $getData['gmail'];
                                                   $_SESSION['type'] = $getData['type'];
                                                   $_SESSION['password'] = $getData['password'];
+                                                  $_SESSION['number'] = $getData['number'];
+                                                  $_SESSION['address'] = $getData['address'];
                                                   $_SESSION['profile_picture'] = $getData['profile_picture'];
                                                   header("Location: Admin/dashboard.php");
                                           }else{  

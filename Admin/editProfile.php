@@ -288,10 +288,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     </div>
                                     <div class="col-sm-9 text-secondary">
                                     <?php  
-                                            if(isset($_SESSION['number'])) {
-                                                echo '<input type="text" name="number" value="' . $_SESSION['number'] . '" class="form-control">';
-                                            } else {
+                                            if(empty($_SESSION['number'])) {
                                                 echo '<input type="text" name="number" value="no information provided!" class="form-control">';
+                                            } else {
+                                              
+                                                echo '<input type="text" name="number" value="' . $_SESSION['number'] . '" class="form-control">';
                                             }
                                             ?>
                                     </div>
@@ -303,10 +304,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     </div>
                                     <div class="col-sm-9 text-secondary">
                                     <?php  
-                                        if(isset($_SESSION['address'])) {
-                                            echo '<textarea name="address" class="form-control">' . htmlspecialchars($_SESSION['address']) . '</textarea>';
-                                        } else {
+                                        if(empty($_SESSION['address'])) {
                                             echo '<textarea name="address" class="form-control">no information provided!</textarea>';
+                                        } else {
+                                            
+                                            echo '<textarea name="address" class="form-control">' . htmlspecialchars($_SESSION['address']) . '</textarea>';
                                         }
                                         ?>
 

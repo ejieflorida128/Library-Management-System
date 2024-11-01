@@ -251,10 +251,11 @@
                       <h6 class="mb-0">Mobile Number</h6>
                     </div>
                     <div class="col-sm-9 text-secondary">
-                    <?php  if(isset($_SESSION['number'] )){
-                          echo $_SESSION['number'];
+                    <?php  if(empty($_SESSION['number'])){
+                              echo 'no information provided!';
                     }else{
-                        echo 'no information provided!';
+                   
+                        echo $_SESSION['number'];
                     }
                     
                     ?>
@@ -266,10 +267,11 @@
                       <h6 class="mb-0">Address</h6>
                     </div>
                     <div class="col-sm-9 text-secondary">
-                    <?php  if(isset($_SESSION['address'] )){
-                          echo $_SESSION['address'];
+                    <?php  if(empty($_SESSION['address'] )){
+                            echo 'no information provided!';
                     }else{
-                        echo 'no information provided!';
+                     
+                        echo $_SESSION['address'];
                     }
                     
                     ?>  
