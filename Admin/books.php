@@ -258,6 +258,11 @@ while ($Story = mysqli_fetch_assoc($queryGetStory)) {
                         <i class="fa fa-box-open" style="color: #888; margin-right: 6px; font-size: 14px;"></i>
                         Remain: <strong><?php echo $Story['remain']; ?></strong>
                     </p>
+
+                    <p style="margin: 0; padding: 2px 0; font-size: 12px;">
+                        <i class="fa <?php echo $Story['download'] > 0 ? 'fa-download' : 'fa-download'; ?>" style="color: #888; margin-right: 6px; font-size: 14px;"></i>
+                        Downloads: <strong><?php echo $Story['download']; ?></strong>
+                    </p>
                 </div>
             </div>
         </div>

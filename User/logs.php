@@ -2,8 +2,33 @@
     include("../conn.php");
     session_start();
 
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        $id = $_SESSION['id'];  
+        $bookTitle = $_POST['bookTitle'];
+        $uploadedBy = $_POST['uploadedBy']; 
+        $stock = $_POST['stock'];
+        $remain = $_POST['stock'];
+    
+        $targetDir = "../storage/";
+        $fileName = basename($_FILES["bookPdf"]["name"]);
+        $targetFilePath = $targetDir . $fileName;
+    
+      
+        if (move_uploaded_file($_FILES["bookPdf"]["tmp_name"], $targetFilePath)) {
+          
+            $sqlUploadStory = "INSERT INTO books (admin_id, story_pdf, stock, remain, book_title, uploaded_by) VALUES ('$id', '$targetFilePath', '$stock', '$remain', '$bookTitle', '$uploadedBy')";
 
+            if (mysqli_query($conn, $sqlUploadStory)) {
+                header("Location: books.php");
+            } else {
+                echo "Database insertion failed: " . mysqli_error($conn);
+            }
+        } else {
+            echo "Failed to upload PDF.";
+        }
+    }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -14,32 +39,32 @@
     <meta content="" name="keywords">
     <meta content="" name="description">
 
-    <!-- Favicon -->
-    <link href="img/favicon.ico" rel="icon">
+   
+   
 
-    <!-- Google Web Fonts -->
+  
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700&display=swap" rel="stylesheet">
     
-    <!-- Icon Font Stylesheet -->
+   
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
 
-    <!-- Libraries Stylesheet -->
+   
     <link href="template/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
     <link href="template/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
 
-    <!-- Customized Bootstrap Stylesheet -->
+  
     <link href="template/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Template Stylesheet -->
+   
     <link href="template/css/style.css" rel="stylesheet">
 </head>
 
 <body>
     <div class="container-xxl position-relative bg-white d-flex p-0">
-        <!-- Spinner Start -->
+       
         <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
                     <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
                         <span class="sr-only">Loading...</span>
@@ -54,11 +79,11 @@
                     });
 
         </script>
-        <!-- Spinner End -->
+   
 
 
 
-        <!-- Sidebar Start -->
+      
         <div class="sidebar pe-4 pb-3">
             <nav class="navbar bg-light navbar-light">
                 <a href="index.html" class="navbar-brand mx-4 mb-3">
@@ -77,20 +102,17 @@
                 <div class="navbar-nav w-100">
                 <a href="dashboard.php" class="nav-item nav-link "><i class="fa fa-home me-2"></i>Dashboard</a>
                 <a href="profile.php" class="nav-item nav-link "><i class="fa fa-user me-2"></i>Profile</a>
-                <a href="books.php" class="nav-item nav-link "><i class="fa fa-book me-2"></i>My Books</a>
-                <a href="logs.php" class="nav-item nav-link active"><i class="fa fa-download me-2"></i>Pending</a>
+                <a href="books.php" class="nav-item nav-link "><i class="fa fa-book me-2"></i>Available Books</a>
+                <a href="logs.php" class="nav-item nav-link active"><i class="fa fa-download me-2"></i>My Library </a>
                 
                 
                    
                 </div>
             </nav>
         </div>
-        <!-- Sidebar End -->
-
-
-        <!-- Content Start -->
+       
         <div class="content">
-            <!-- Navbar Start -->
+         
             <nav class="navbar navbar-expand bg-light navbar-light sticky-top px-4 py-0">
                 <a href="index.html" class="navbar-brand d-flex d-lg-none me-4">
                     <h2 class="text-primary mb-0"><i class="fa fa-hashtag"></i></h2>
@@ -98,9 +120,10 @@
                 <a href="#" class="sidebar-toggler flex-shrink-0">
                     <i class="fa fa-bars"></i>
                 </a>
-                <form class="d-none d-md-flex ms-4">
-                    <input class="form-control border-0" type="search" placeholder="Search">
+                <form class="d-none d-md-flex ms-4" method="GET" action="">
+                    <input class="form-control border-0" type="search" name="search" placeholder="Search" value="<?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>">
                 </form>
+
                 <div class="navbar-nav align-items-center ms-auto">
                     <div class="nav-item dropdown">
                       
@@ -121,21 +144,93 @@
                     </div>
                 </div>
             </nav>
-            <!-- Navbar End -->
+        
 
-
-            <!-- Blank Start -->
+       
             <div class="container-fluid pt-4 px-4">
-                <div class="row vh-100 bg-light rounded align-items-center justify-content-center mx-0">
-                    <div class="col-md-6 text-center">
-                        <h3>This is blank page</h3>
+                        <!-- start sa boooks -->
+
+
+                        <section id="pricing" class="section">
+      <div class="container">
+    
+
+
+
+        <div class="row pricing-tables" style = "margin-top: 20px; ">
+          
+         <!--  Start Col -->
+         <?php
+$id = $_SESSION['id'];
+
+// Get the search term from the input
+$search = isset($_GET['search']) ? mysqli_real_escape_string($conn, $_GET['search']) : '';
+
+// Modify the SQL query to include a WHERE clause for the search term and user_id
+$sqlGetStory = "
+    SELECT lend_books.*, accounts.fullname 
+    FROM lend_books 
+    JOIN accounts ON lend_books.uploaded_by = accounts.id 
+    WHERE (LOWER(lend_books.book_title) LIKE LOWER('%$search%') 
+    OR LOWER(accounts.fullname) LIKE LOWER('%$search%'))
+    AND lend_books.user_id = '$id'";  // Ensure that the user_id matches the session id
+
+$queryGetStory = mysqli_query($conn, $sqlGetStory);
+
+// Loop through lend_books and display details
+while ($Story = mysqli_fetch_assoc($queryGetStory)) {
+?>
+    <div class="col-lg-4 col-md-4 col-xs-12" 
+         style="box-shadow: 0px 4px 8px rgba(0.5, 0.5, 0.5, 0.5); border-radius: 10px; margin: 10px; width: 300px;">
+                
+        <div class="pricing-table text-center" style="padding: 10px; position: relative;">
+            <h6>
+                <?php echo htmlspecialchars($Story['book_title']); ?>
+            </h6>
+
+            <div class="pricing-details">
+                <iframe src="<?php echo $Story['story_pdf']; ?>" class="no-scroll-iframe" width="90%" height="200px"></iframe>
+            </div>
+            <div>
+                <div class="info" style="text-align: left;">
+                    <p style="margin: 0; padding: 2px 0; font-size: 12px;">
+                        <i class="fa fa-user" style="color: #888; margin-right: 6px; font-size: 14px;"></i>
+                        Uploaded By: <?php echo htmlspecialchars($Story['fullname']); ?>
+                    </p>
+                    
+                    <div class="div" style="display: flex; margin-top: 10px;">
+                        <a href="download.php?bookid=<?php echo $Story['book_id']; ?>" class="btn btn-success" style="margin-right: 0; width: 160px;">Download</a>
+                        <a href="return.php?bookid=<?php echo $Story['book_id']; ?>&id=<?php echo $Story['lend_id']; ?>" class="btn btn-danger" style="margin-left: 10px; width: 100px; ">Return</a>
                     </div>
+
                 </div>
             </div>
-            <!-- Blank End -->
+        </div>
+    </div>
+<?php
+}
+?>
 
 
-            <!-- Footer Start -->
+
+
+
+
+
+
+
+
+    
+        </div>
+      
+      </div>
+    </section>
+
+                        <!-- end sa books -->
+            </div>
+        
+
+       
             <div class="container-fluid pt-4 px-4">
                 <div class="bg-light rounded-top p-4">
                     <div class="row">
@@ -148,16 +243,12 @@
                     </div>
                 </div>
             </div>
-            <!-- Footer End -->
+       
         </div>
-        <!-- Content End -->
-
-
-        <!-- Back to Top -->
+    
         <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
     </div>
 
-    <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="template/lib/chart/chart.min.js"></script>
@@ -168,7 +259,6 @@
     <script src="template/lib/tempusdominus/js/moment-timezone.min.js"></script>
     <script src="template/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
 
-    <!-- Template Javascript -->
     <script src="template/js/main.js"></script>
 </body>
 

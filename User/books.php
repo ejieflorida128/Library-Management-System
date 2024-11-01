@@ -102,8 +102,8 @@
                 <div class="navbar-nav w-100">
                 <a href="dashboard.php" class="nav-item nav-link "><i class="fa fa-home me-2"></i>Dashboard</a>
                 <a href="profile.php" class="nav-item nav-link "><i class="fa fa-user me-2"></i>Profile</a>
-                <a href="books.php" class="nav-item nav-link active"><i class="fa fa-book me-2"></i>My Books</a>
-                <a href="logs.php" class="nav-item nav-link"><i class="fa fa-download me-2"></i>Pending </a>
+                <a href="books.php" class="nav-item nav-link active"><i class="fa fa-book me-2"></i>Available Books</a>
+                <a href="logs.php" class="nav-item nav-link"><i class="fa fa-download me-2"></i>My Library </a>
                 
                 
                    
@@ -153,41 +153,7 @@
 
                         <section id="pricing" class="section">
       <div class="container">
-      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" style = "box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);">
-            Upload Book
-        </button>
-
-        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <form action="books.php" method="post" enctype="multipart/form-data" id="uploadBookForm">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="exampleModalLabel" style="font-size: 14px;">Upload a Book</h1>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body" style="font-size: 14px;">
-                            <div class="mb-3">
-                                <label for="bookTitle" class="form-label">Book Title</label>
-                                <input type="text" class="form-control" id="bookTitle" name="bookTitle" placeholder="Enter book title" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="bookPdf" class="form-label">Upload PDF</label>
-                                <input type="file" class="form-control" id="bookPdf" name="bookPdf"  required>
-                            </div>
-                            <input type="hidden" id="uploadedBy" name="uploadedBy" value="<?php echo $_SESSION['id']; ?>">
-                            <div class="mb-3">
-                                <label for="stock" class="form-label">Stock</label>
-                                <input type="number" class="form-control" id="stock" name="stock" placeholder="Enter stock count" required>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-                            <input type="submit" value="Upload Book" class="btn btn-success">
-                        </div>
-                    </div>
-                </div>
-            </form>
-        </div>
+    
 
 
 
@@ -205,8 +171,7 @@ $sqlGetStory = "
     SELECT books.*, accounts.fullname 
     FROM books 
     JOIN accounts ON books.uploaded_by = accounts.id 
-    WHERE books.admin_id = $id 
-    AND (LOWER(books.book_title) LIKE LOWER('%$search%') OR LOWER(accounts.fullname) LIKE LOWER('%$search%'))";
+    WHERE (LOWER(books.book_title) LIKE LOWER('%$search%') OR LOWER(accounts.fullname) LIKE LOWER('%$search%'))";
 $queryGetStory = mysqli_query($conn, $sqlGetStory);
 
 
@@ -258,6 +223,13 @@ while ($Story = mysqli_fetch_assoc($queryGetStory)) {
                         <i class="fa fa-box-open" style="color: #888; margin-right: 6px; font-size: 14px;"></i>
                         Remain: <strong><?php echo $Story['remain']; ?></strong>
                     </p>
+                    <p style="margin: 0; padding: 2px 0; font-size: 12px;">
+                        <i class="fa <?php echo $Story['download'] > 0 ? 'fa-download' : 'fa-download'; ?>" style="color: #888; margin-right: 6px; font-size: 14px;"></i>
+                        Downloads: <strong><?php echo $Story['download']; ?></strong>
+                    </p>
+
+                    <a href="lend.php?bookid=<?php echo $Story['id']; ?>&&admin_id=<?php echo $Story['admin_id']; ?>&&story_pdf=<?php echo $Story['story_pdf']; ?>&&book_title=<?php echo $Story['book_title']; ?>&&uploaded_by=<?php echo $Story['uploaded_by']; ?>" class="btn btn-success" style="display: flex; justify-content: center; align-items: center; text-align: center;">Lend</a>
+
                 </div>
             </div>
         </div>
