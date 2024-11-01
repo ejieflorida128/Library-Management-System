@@ -67,7 +67,7 @@
               <p>Manage your library effectively with tools for organizing books, tracking borrowing history, and managing memberships.</p>
 
               <div class="header-button">
-                <a href="#pricing" rel="nofollow" class="btn btn-border-filled page-scroll">Download a book</a>
+                <a href="login.php" rel="nofollow" class="btn btn-border-filled page-scroll">Download a book</a>
                 <a href="#services" rel="nofollow"  class="btn btn-border page-scroll">Learn More</a>
               </div>
             </div>
