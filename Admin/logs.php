@@ -131,31 +131,53 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <?php
-                    
-                        $search = isset($_GET['search']) ? mysqli_real_escape_string($conn, $_GET['search']) : '';
+                                <?php
+                              
+                                $search = isset($_GET['search']) ? mysqli_real_escape_string($conn, $_GET['search']) : '';
 
-                      
-                        $getAllLatestData = "
-                            SELECT lend_books.*, accounts.fullname 
-                            FROM lend_books 
-                            JOIN accounts ON lend_books.user_id = accounts.id 
-                            WHERE lend_books.book_title LIKE '%$search%' 
-                            ORDER BY lend_id";
-                        
-                        $query = mysqli_query($conn, $getAllLatestData);
-                        $count = 0;
-                        while ($getData = mysqli_fetch_assoc($query)) {
-                            $count++;
-                        ?>
-                            <tr>
-                                <th scope="row" style="text-align: center;"><?php echo $count; ?></th>
-                                <td style="text-align: center;"><?php echo $getData['book_title']; ?></td>
-                                <td style="text-align: center;"><?php echo $getData['fullname']; ?></td>
-                                <td style="text-align: center;"><?php echo $getData['date']; ?></td>
-                            </tr>
-                        <?php } ?>
-                    </tbody>
+                                $admin_id = $_SESSION['id'];
+
+                             
+                                $getAllLatestData = "
+                                    SELECT lend_books.*, 
+                                        (SELECT fullname FROM accounts WHERE id = lend_books.user_id) AS fullname 
+                                    FROM lend_books 
+                                    WHERE admin_id = ? 
+                                    AND book_title LIKE ? 
+                                    ORDER BY lend_id";
+
+                               
+                                if ($stmt = mysqli_prepare($conn, $getAllLatestData)) {
+                                 
+                                    $searchParam = "%" . $search . "%"; 
+                                    mysqli_stmt_bind_param($stmt, "is", $admin_id, $searchParam); 
+
+                                   
+                                    mysqli_stmt_execute($stmt);
+
+                                 
+                                    $result = mysqli_stmt_get_result($stmt);
+                                    $count = 0;
+
+                                  
+                                    while ($getData = mysqli_fetch_assoc($result)) {
+                                        $count++;
+                                ?>
+                                        <tr>
+                                            <th scope="row" style="text-align: center;"><?php echo $count; ?></th>
+                                            <td style="text-align: center;"><?php echo htmlspecialchars($getData['book_title']); ?></td>
+                                            <td style="text-align: center;"><?php echo htmlspecialchars($getData['fullname']); ?></td>
+                                            <td style="text-align: center;"><?php echo htmlspecialchars($getData['date']); ?></td>
+                                        </tr>
+                                <?php
+                                    }
+                                  
+                                    mysqli_stmt_close($stmt);
+                                }
+                                ?>
+                            </tbody>
+
+
                 </table>
             </div>
         </div>
