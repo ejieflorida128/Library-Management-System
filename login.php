@@ -83,7 +83,7 @@ session_start();
                             
                           }else{
                             
-                              $insertQuery = "INSERT INTO accounts (fullname,gmail,password,status,type,profile_pictures) VALUES ('$fullname','$gmail','$password','Pending','User','../profile_pictures/default.avif')";
+                              $insertQuery = "INSERT INTO accounts (fullname,gmail,password,status,type,profile_picture) VALUES ('$fullname','$gmail','$password','Pending','User','../profile_pictures/default.avif')";
                               mysqli_query($conn,$insertQuery);
 
                               // modal for successful register
